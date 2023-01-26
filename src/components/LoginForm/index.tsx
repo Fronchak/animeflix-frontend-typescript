@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { ActionFunctionArgs, Form, redirect, useNavigate } from 'react-router-dom';
-import { requestBackendLogin } from '../../util/request';
+import { getAuthData, requestBackendLogin, saveAuthData } from '../../util/request';
 
 export const action = async({ request }: ActionFunctionArgs) => {
   console.log('Passou pelo action do login');
@@ -24,6 +24,8 @@ const LoginForm = () => {
     requestBackendLogin(formData)
       .then((response) => {
         console.log('SUCESSO!', response);
+        saveAuthData(response.data);
+        console.log(getAuthData());
       })
       .catch((e) => {
         console.log('ERROR!', e);

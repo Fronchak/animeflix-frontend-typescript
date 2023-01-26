@@ -5,6 +5,15 @@ export const BASE_URL = 'http://localhost:8080';
 
 const CLIENT_ID = "myclientid";
 const CLIENT_SECRET = "myclientsecret";
+const AUTH_DATA = 'authData';
+
+type LoginResponse = {
+  access_token: string;
+  token_type: string;
+  expires_in: number;
+  scope: string;
+  jti: string;
+};
 
 const basicHeader = () => {
   return `Basic ${ window.btoa(`${CLIENT_ID}:${CLIENT_SECRET}`) }`;
@@ -36,4 +45,13 @@ export const requestBackendLogin = (loginData: LoginData) => {
     headers
   });
 
+}
+
+export const saveAuthData = (loginResponse: LoginResponse) => {
+  localStorage.setItem(AUTH_DATA, JSON.stringify(loginResponse));
+}
+
+export const getAuthData = () => {
+  const rawObj = localStorage.getItem(AUTH_DATA) ?? '{}';
+  return JSON.parse(rawObj) as LoginResponse;
 }
