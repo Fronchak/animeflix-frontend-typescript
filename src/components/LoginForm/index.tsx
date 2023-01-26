@@ -41,7 +41,11 @@ const LoginForm = () => {
             <label className="form-label" htmlFor="username">Email</label>
             <input
               { ...register("username", {
-                required: 'Campo obrigatório'
+                required: 'Campo obrigatório',
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: 'Email inválido'
+                }
 
               }) }
               type="email"
@@ -57,7 +61,11 @@ const LoginForm = () => {
             <label className="form-label" htmlFor="password">Senha</label>
             <input
               { ...register("password", {
-                required: 'Campo obrgatório'
+                required: 'Campo obrgatório',
+                minLength: {
+                  value: 6,
+                  message: 'Senha deve possuir pelo menos 6 caracteres'
+                }
               }) }
               type="password"
               name="password"
