@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { ActionFunctionArgs, Form, redirect, useNavigate } from 'react-router-dom';
+import { requestBackendLogin } from '../../util/request';
 
 export const action = async({ request }: ActionFunctionArgs) => {
   console.log('Passou pelo action do login');
@@ -12,13 +14,20 @@ type FormData = {
 }
 
 const LoginForm = () => {
-  const { register, handleSubmit } = useForm<FormData>();
+  const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
+  const [ wasSubmited, setWasSubmited ] = useState(false);
   const navigate = useNavigate();
 
 
   const onSubmit = (formData: FormData) => {
     console.log(formData);
-    navigate('/')
+    requestBackendLogin(formData)
+      .then((response) => {
+        console.log('SUCESSO!', response);
+      })
+      .catch((e) => {
+        console.log('ERROR!', e);
+      })
   }
 
   return (
@@ -31,31 +40,38 @@ const LoginForm = () => {
           <div className="col-12 mb-3">
             <label className="form-label" htmlFor="username">Email</label>
             <input
-              { ...register("username") }
+              { ...register("username", {
+                required: 'Campo obrigatório'
+
+              }) }
               type="email"
               name="username"
               id="username"
-              className="form-control"
+              className={`form-control ${ errors.username ? 'is-invalid' : wasSubmited ? 'is-valid' : ''}`}
               placeholder="exemplo@gmail.com"></input>
             <div className="invalid-feedback">
-              Campo obrigatório.
+              { errors.username?.message }
             </div>
           </div>
           <div className="col-12 mb-3">
             <label className="form-label" htmlFor="password">Senha</label>
             <input
-              { ...register("password") }
+              { ...register("password", {
+                required: 'Campo obrgatório'
+              }) }
               type="password"
               name="password"
               id="password"
-              className="form-control"
+              className={`form-control ${ errors.password ? 'is-invalid' : wasSubmited ? 'is-valid' : ''}`}
             ></input>
             <div className="invalid-feedback">
-              Campo obrigatório.
+              { errors.password?.message }
             </div>
           </div>
           <div className="col-12 mb-3">
-            <button type="submit" className="btn btn-primary">Entrar</button>
+            <button
+              onClick={() => setWasSubmited(true)}
+              type="submit" className="btn btn-primary">Entrar</button>
           </div>
         </Form>
       </div>
