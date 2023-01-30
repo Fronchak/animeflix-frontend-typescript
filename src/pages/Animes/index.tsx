@@ -1,8 +1,10 @@
 import { Link, useLoaderData, redirect } from 'react-router-dom';
 import axios, { AxiosRequestConfig } from 'axios';
 import AnimeCard from "../../components/AnimeCard";
-import { BASE_URL } from '../../util/request';
+import { BASE_URL, requestAllCategoryNames, requestBackend } from '../../util/request';
 import { SpringPage } from '../../types/vendor/StringPage';
+import AnimeFilter from '../../components/AnimeFilter';
+import { CategoryName } from '../../types/domain/CategoryName';
 
 type Anime = {
   id: number,
@@ -14,17 +16,17 @@ type Anime = {
 export const loader = async () => {
   try {
     const config: AxiosRequestConfig = {
-      baseURL: BASE_URL,
       method: "get",
       url: '/animes',
       params: {
-        size: 12,
+        size: 20,
         page: 0
       }
     }
-    const response = await axios(config);
+    const response = await requestBackend(config);
     const page = response.data;
-    return { page };
+    const categories = await requestAllCategoryNames();
+    return { page, categories };
   }
   catch(e) {
     console.log(e);
@@ -34,11 +36,12 @@ export const loader = async () => {
 
 type LoaderData = {
   page: SpringPage<Anime>
+  categories: CategoryName[];
 }
 
 const Animes = () => {
 
-  const { page } = useLoaderData() as LoaderData;
+  const { page, categories } = useLoaderData() as LoaderData;
   const animes = page.content;
 
   const content = () =>{
@@ -58,6 +61,9 @@ const Animes = () => {
       <div className="row">
         <div className="col-12">
           <h1>Animes</h1>
+        </div>
+        <div className="col-12">
+          <AnimeFilter categories={ categories } />
         </div>
         { content() }
       </div>

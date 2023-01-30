@@ -1,0 +1,16 @@
+#stars-container i {
+  font-size: 2em;
+}
+
+@media (min-width: 576px) {
+  #stars-container i {
+    font-size: 1.2em;
+  }
+}
+
+@media (min-width: 1200px) {
+  #stars-container i {
+    font-size: 1.5em;
+  }
+}
+

@@ -1,5 +1,6 @@
-import axios from 'axios';
+import axios, { AxiosHeaders, AxiosRequestConfig } from 'axios';
 import qs from 'qs';
+import { CategoryName } from '../types/domain/CategoryName';
 
 export const BASE_URL = 'http://localhost:8080';
 
@@ -54,4 +55,26 @@ export const saveAuthData = (loginResponse: LoginResponse) => {
 export const getAuthData = () => {
   const rawObj = localStorage.getItem(AUTH_DATA) ?? '{}';
   return JSON.parse(rawObj) as LoginResponse;
+}
+
+export const requestBackend = (config: AxiosRequestConfig) => {
+
+  const headers = config.withCredentials ? {
+    Authorization: 'Bearer ' + getAuthData().access_token
+  } : config.headers;
+
+  const newConfig: AxiosRequestConfig = { ...config, headers, baseURL: BASE_URL };
+
+  return axios(newConfig);
+}
+
+export const requestAllCategoryNames = async(): Promise<CategoryName[]> => {
+  const config: AxiosRequestConfig = {
+    baseURL: BASE_URL,
+    url: '/categories/all',
+    method: 'get'
+  }
+  const response = await axios(config);
+  const categories = response.data as CategoryName[];
+  return categories;
 }

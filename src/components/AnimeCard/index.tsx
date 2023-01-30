@@ -1,5 +1,6 @@
 import { formatNota } from "../../util/format";
 import AnimeNota from "../AnimeNota";
+import Stars from "../Stars";
 
 type Props = {
   anime: {

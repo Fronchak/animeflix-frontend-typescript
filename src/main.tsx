@@ -9,6 +9,7 @@ import Root from './pages/Root';
 import AnimeDetailsPage, { loader as animeDetailsLoader } from './pages/AnimeDetailsPage';
 import Auth from './pages/Auth';
 import LoginForm, { action as loginAction } from './components/LoginForm';
+import UserPage, { loader as userLoader } from './pages/UserPage';
 
 type BaseParams = {
   id: string;
@@ -36,6 +37,11 @@ const router = createBrowserRouter([
             path: 'animes/:id',
             element: <AnimeDetailsPage />,
             loader: animeDetailsLoader
+          },
+          {
+            path: 'users/:id',
+            element: <UserPage />,
+            loader: userLoader
           },
           {
             path: 'auth',
