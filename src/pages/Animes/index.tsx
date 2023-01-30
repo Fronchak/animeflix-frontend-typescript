@@ -7,6 +7,7 @@ import AnimeFilter from '../../components/AnimeFilter';
 import { CategoryName } from '../../types/domain/CategoryName';
 import { AnimeFilterData } from '../../types/domain/AnimeFilterData';
 import { useEffect } from 'react';
+import Pagination from '../../components/Pagination';
 
 type Anime = {
   id: number,
@@ -69,17 +70,22 @@ const Animes = () => {
   }
 
   return (
-    <div className="container py-3">
-      <div className="row">
-        <div className="col-12">
-          <h1>Animes</h1>
+    <>
+      <div className="container py-3">
+        <div className="row">
+          <div className="col-12">
+            <h1>Animes</h1>
+          </div>
+          <div className="col-12">
+            <AnimeFilter categories={ categories } defaultValues={ params } handleClearFilter={() => navigate('/animes')} />
+          </div>
+          { content() }
         </div>
-        <div className="col-12">
-          <AnimeFilter categories={ categories } defaultValues={ params } handleClearFilter={() => navigate('/animes')} />
-        </div>
-        { content() }
       </div>
-    </div>
+      <div className="col-12 mt-3">
+        <Pagination />
+      </div>
+    </>
   );
 }
 

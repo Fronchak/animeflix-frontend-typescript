@@ -1,0 +1,34 @@
+.pagination-item {
+  margin-right: 1em;
+  margin-left: 1em;
+  background-color: white;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  font-size: 1.2em;
+  font-weight: bold;
+  transition: 0.5s;
+  border: 1px solid #fff;
+}
+
+.pagination-item:hover {
+  border: 1px solid #000;
+}
+
+.active-paginarion-item {
+  background-color: #000;
+  border: 1px solid #000;
+  color: #FFF
+}
+
+.active-paginarion-item:hover {
+  border-color: #fff;
+}
+
+.pagination-container i {
+  color: #000;
+  font-size: 1.5em;
+}
