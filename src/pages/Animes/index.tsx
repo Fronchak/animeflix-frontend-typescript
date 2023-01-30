@@ -1,10 +1,12 @@
-import { Link, useLoaderData, redirect } from 'react-router-dom';
+import { Link, useLoaderData, redirect, LoaderFunctionArgs, useNavigate } from 'react-router-dom';
 import axios, { AxiosRequestConfig } from 'axios';
 import AnimeCard from "../../components/AnimeCard";
-import { BASE_URL, requestAllCategoryNames, requestBackend } from '../../util/request';
+import { getParamsToAnimePageFromRequest, requestAllCategoryNames, requestBackend } from '../../util/request';
 import { SpringPage } from '../../types/vendor/StringPage';
 import AnimeFilter from '../../components/AnimeFilter';
 import { CategoryName } from '../../types/domain/CategoryName';
+import { AnimeFilterData } from '../../types/domain/AnimeFilterData';
+import { useEffect } from 'react';
 
 type Anime = {
   id: number,
@@ -13,20 +15,21 @@ type Anime = {
   avaliation: number;
 }
 
-export const loader = async () => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+
+  const params = getParamsToAnimePageFromRequest(request);
+
   try {
     const config: AxiosRequestConfig = {
       method: "get",
       url: '/animes',
-      params: {
-        size: 20,
-        page: 0
-      }
+      params
     }
+
     const response = await requestBackend(config);
     const page = response.data;
     const categories = await requestAllCategoryNames();
-    return { page, categories };
+    return { page, categories, params };
   }
   catch(e) {
     console.log(e);
@@ -37,12 +40,21 @@ export const loader = async () => {
 type LoaderData = {
   page: SpringPage<Anime>
   categories: CategoryName[];
+  params: AnimeFilterData;
 }
 
 const Animes = () => {
 
-  const { page, categories } = useLoaderData() as LoaderData;
+  const { page, categories, params } = useLoaderData() as LoaderData;
   const animes = page.content;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const input = document.getElementById('filter') as HTMLInputElement;
+    input.value = params.filter
+    const select = document.getElementById('categoryId') as HTMLSelectElement;
+    select.value = String(params.categoryId);
+  }, [params]);
 
   const content = () =>{
     return animes.map((anime) => {
@@ -63,7 +75,7 @@ const Animes = () => {
           <h1>Animes</h1>
         </div>
         <div className="col-12">
-          <AnimeFilter categories={ categories } />
+          <AnimeFilter categories={ categories } defaultValues={ params } handleClearFilter={() => navigate('/animes')} />
         </div>
         { content() }
       </div>

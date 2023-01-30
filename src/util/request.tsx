@@ -78,3 +78,16 @@ export const requestAllCategoryNames = async(): Promise<CategoryName[]> => {
   const categories = response.data as CategoryName[];
   return categories;
 }
+
+export const getParamsToAnimePageFromRequest = (request: Request) => {
+  const url = new URL(request.url);
+  const filter = url.searchParams.get("filter") || "";
+  const categoryId = url.searchParams.get("categoryId") || 0;
+  const page = url.searchParams.get("page") || 0;
+  return {
+    filter,
+    categoryId,
+    page,
+    size: 20
+  }
+}
