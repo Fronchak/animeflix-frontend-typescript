@@ -17,6 +17,9 @@ const Navbar = () => {
               <NavLink className="nav-link" to="animes">Animes</NavLink>
             </li>
             <li className="nav-item">
+              <NavLink className="nav-link" to="admin">Admin</NavLink>
+            </li>
+            <li className="nav-item">
               <NavLink className="nav-link" to="auth">Login</NavLink>
             </li>
           </ul>

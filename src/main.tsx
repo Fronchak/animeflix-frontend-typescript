@@ -10,6 +10,9 @@ import AnimeDetailsPage, { loader as animeDetailsLoader } from './pages/AnimeDet
 import Auth from './pages/Auth';
 import LoginForm, { action as loginAction } from './components/LoginForm';
 import UserPage, { loader as userLoader } from './pages/UserPage';
+import AdminRoot from './pages/AdminRoot';
+import AdminAnimesList from './pages/AdminAnimesList';
+import AdminIndex from './pages/AdminIndex';
 
 type BaseParams = {
   id: string;
@@ -51,6 +54,20 @@ const router = createBrowserRouter([
                 index: true,
                 element: <LoginForm />,
                 action: loginAction
+              }
+            ]
+          },
+          {
+            path: 'admin',
+            element: <AdminRoot />,
+            children: [
+              {
+                index: true,
+                element: <AdminIndex />
+              },
+              {
+                path: 'animes',
+                element: <AdminAnimesList />
               }
             ]
           }

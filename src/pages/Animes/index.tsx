@@ -69,6 +69,10 @@ const Animes = () => {
     });
   }
 
+  const onPageChange = (page: number) => {
+    navigate(`/animes?page=${page}&filter=${params.filter}&categoryId=${params.categoryId}`);
+  }
+
   return (
     <>
       <div className="container py-3">
@@ -83,7 +87,7 @@ const Animes = () => {
         </div>
       </div>
       <div className="col-12 mt-3">
-        <Pagination />
+        <Pagination activePage={page.number} pageCount={page.totalPages} onPageChange={onPageChange} />
       </div>
     </>
   );
