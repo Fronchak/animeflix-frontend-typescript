@@ -1,3 +1,4 @@
+
 export type AnimeFormInputs = {
   name: string;
   synopsis: string;
@@ -6,3 +7,6 @@ export type AnimeFormInputs = {
   imgUrl: string;
   categories: number[];
 }
+
+export type AnimeFormInputsKeys = 'name' | 'synopsis' | 'lauchYear' | 'avaliation' | 'imgUrl' | 'categories';
+

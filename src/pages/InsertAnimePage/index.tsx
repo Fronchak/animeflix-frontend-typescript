@@ -1,6 +1,7 @@
 import { AxiosError, AxiosRequestConfig } from 'axios';
 import { useLoaderData, ActionFunctionArgs, redirect, useActionData } from 'react-router-dom';
 import AnimeForm from "../../components/AnimeForm";
+import { Anime } from '../../types/domain/Anime';
 import { CategoryName } from '../../types/domain/CategoryName';
 import { DefaultDataError } from '../../types/vendor/DefaultDataError';
 import { RequestError } from '../../types/vendor/RequestError';
@@ -8,28 +9,22 @@ import { requestAllCategoryNames, requestBackend } from '../../util/request';
 
 export const action = async({ request }: ActionFunctionArgs) => {
 try {
-  console.log('request', request);
   const formData = await request.formData();
   const categories = formData.getAll('categories');
-  console.log('categories', categories);
-  console.log('formData', formData);
   const obj = Object.fromEntries(formData);
-  const data = { ...obj, categories };
-  console.log('obj', data);
+  const data = { ...obj, categories: [1, 2, 20] };
   const config: AxiosRequestConfig = {
     method: 'post',
     url: '/animes',
     data
   }
   const response = await requestBackend(config);
-  console.log(response);
-  return redirect('/animes');
+  return redirect(`/animes/${(response.data as Anime).id}`);
 }
 catch(e) {
   console.log(e);
   const obj = e as RequestError;
   return obj.response.data;
-  //return redirect('/admin/animes/create');
 }
 
 }
