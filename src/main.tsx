@@ -13,6 +13,7 @@ import UserPage, { loader as userLoader } from './pages/UserPage';
 import AdminRoot from './pages/AdminRoot';
 import AdminAnimesList from './pages/AdminAnimesList';
 import AdminIndex from './pages/AdminIndex';
+import InsertAnimePage, { loader as insertAnimePageLoader, action as insertAnimeAction } from './pages/InsertAnimePage';
 
 type BaseParams = {
   id: string;
@@ -62,12 +63,23 @@ const router = createBrowserRouter([
             element: <AdminRoot />,
             children: [
               {
-                index: true,
-                element: <AdminIndex />
-              },
-              {
-                path: 'animes',
-                element: <AdminAnimesList />
+                errorElement: <ErrorComponent />,
+                children: [
+                  {
+                    index: true,
+                    element: <AdminIndex />
+                  },
+                  {
+                    path: 'animes',
+                    element: <AdminAnimesList />
+                  },
+                  {
+                    path: 'animes/create',
+                    element: <InsertAnimePage />,
+                    loader: insertAnimePageLoader,
+                    action: insertAnimeAction
+                  }
+                ]
               }
             ]
           }

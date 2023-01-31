@@ -7,7 +7,7 @@ type RouteError = {
 
 const ErrorComponent = () => {
   const error = useRouteError() as RouteError;
-
+  console.log(error);
   return (
     <div className="container text-center p-2 p-lg-5">
       <h1 className="mb-4">Oops!</h1>
