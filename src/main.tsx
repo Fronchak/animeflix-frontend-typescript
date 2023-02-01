@@ -15,6 +15,7 @@ import AdminAnimesList, { loader as adminAnimesListLoader } from './pages/AdminA
 import AdminIndex from './pages/AdminIndex';
 import InsertAnimePage, { loader as insertAnimePageLoader, action as insertAnimeAction } from './pages/InsertAnimePage';
 import EditAnimePage, { loader as editAnimePageLoader, action as editAnimePageAction } from './pages/EditAnimePage';
+import DeleteAnimePage, { loader as deleteAnimePageLoader, action as deleteAnimePageAction } from './pages/DeleteAnimePage';
 
 type BaseParams = {
   id: string;
@@ -86,6 +87,12 @@ const router = createBrowserRouter([
                     element: <EditAnimePage />,
                     loader: editAnimePageLoader,
                     action: editAnimePageAction
+                  },
+                  {
+                    path: 'animes/delete/:id',
+                    element: <DeleteAnimePage />,
+                    loader: deleteAnimePageLoader,
+                    action: deleteAnimePageAction
                   }
                 ]
               }
