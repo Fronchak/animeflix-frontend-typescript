@@ -1,0 +1,26 @@
+.anime-crud-card-container .btn {
+  border-radius: 0;
+  font-weight: bold;
+  font-size: 1.2em;
+  transition: 0.8s;
+}
+
+.anime-crud-card-container .btn-primary:hover {
+  background-color: #FFF;
+  color: #0d6efd;
+}
+
+.anime-crud-card-container .btn-danger:hover {
+  background-color: #FFF;
+  color: #dc3545;
+}
+
+@media (min-width: 576px) {
+  .anime-crud-card-container .img-fluid {
+    height: 250px;
+  }
+
+  .anime-crud-card-container h2 {
+    height: 70px;
+  }
+}

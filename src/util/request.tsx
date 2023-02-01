@@ -88,6 +88,6 @@ export const getParamsToAnimePageFromRequest = (request: Request) => {
     filter,
     categoryId,
     page,
-    size: 1
+    size: 3
   }
 }

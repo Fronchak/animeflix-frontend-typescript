@@ -11,7 +11,7 @@ import Auth from './pages/Auth';
 import LoginForm, { action as loginAction } from './components/LoginForm';
 import UserPage, { loader as userLoader } from './pages/UserPage';
 import AdminRoot from './pages/AdminRoot';
-import AdminAnimesList from './pages/AdminAnimesList';
+import AdminAnimesList, { loader as adminAnimesListLoader } from './pages/AdminAnimesList';
 import AdminIndex from './pages/AdminIndex';
 import InsertAnimePage, { loader as insertAnimePageLoader, action as insertAnimeAction } from './pages/InsertAnimePage';
 
@@ -71,7 +71,8 @@ const router = createBrowserRouter([
                   },
                   {
                     path: 'animes',
-                    element: <AdminAnimesList />
+                    element: <AdminAnimesList />,
+                    loader: adminAnimesListLoader
                   },
                   {
                     path: 'animes/create',

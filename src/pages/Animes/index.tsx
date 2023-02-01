@@ -19,23 +19,16 @@ type Anime = {
 export const loader = async ({ request }: LoaderFunctionArgs) => {
 
   const params = getParamsToAnimePageFromRequest(request);
-
-  try {
-    const config: AxiosRequestConfig = {
-      method: "get",
-      url: '/animes',
-      params
-    }
-
-    const response = await requestBackend(config);
-    const page = response.data;
-    const categories = await requestAllCategoryNames();
-    return { page, categories, params };
+  const config: AxiosRequestConfig = {
+    method: "get",
+    url: '/animes',
+    params
   }
-  catch(e) {
-    console.log(e);
-    return redirect('/')
-  }
+
+  const response = await requestBackend(config);
+  const page = response.data;
+  const categories = await requestAllCategoryNames();
+  return { page, categories, params };
 }
 
 type LoaderData = {
