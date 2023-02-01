@@ -1,5 +1,5 @@
-import { AxiosError, AxiosRequestConfig } from 'axios';
-import { useLoaderData, ActionFunctionArgs, redirect, useActionData } from 'react-router-dom';
+import { AxiosRequestConfig } from 'axios';
+import { useLoaderData, ActionFunctionArgs, redirect, useActionData, LoaderFunctionArgs } from 'react-router-dom';
 import AnimeForm from "../../components/AnimeForm";
 import { Anime } from '../../types/domain/Anime';
 import { CategoryName } from '../../types/domain/CategoryName';
@@ -7,50 +7,55 @@ import { DefaultDataError } from '../../types/vendor/DefaultDataError';
 import { RequestError } from '../../types/vendor/RequestError';
 import { requestAllCategoryNames, requestBackend } from '../../util/request';
 
-export const action = async({ request }: ActionFunctionArgs) => {
+export const action = async({ request, params }: ActionFunctionArgs) => {
 try {
   const formData = await request.formData();
+  console.log('formData', formData);
   const categories = formData.getAll('categories');
   const obj = Object.fromEntries(formData);
   const data = { ...obj, categories };
+  console.log('data', data);
   const config: AxiosRequestConfig = {
-    method: 'post',
-    url: '/animes',
+    method: 'put',
+    url: `/animes/${params.id}`,
     data
   }
   const response = await requestBackend(config);
   return redirect(`/animes/${(response.data as Anime).id}`);
 }
 catch(e) {
-  console.log(e);
   const obj = e as RequestError;
   return obj.response.data;
 }
 
 }
 
-export const loader = async() => {
+export const loader = async({ params }: LoaderFunctionArgs) => {
   const categories = await requestAllCategoryNames();
-  //throw new Error('Error at InsertAnimePage')
-  return { categories };
+  const config: AxiosRequestConfig = {
+    url: `/animes/${params.id}`,
+    method: 'get'
+  }
+  const response = await requestBackend(config);
+  const anime = response.data;
+  return { categories, anime };
 }
 
 type Loader = {
-  categories: CategoryName[];
+  categories: CategoryName[]
+  anime: Anime;
 }
 
-const InsertAnimePage = () => {
+const EditAnimePage = () => {
 
-  const { categories } = useLoaderData() as Loader;
+  const { categories, anime } = useLoaderData() as Loader;
   const actionData = useActionData() as DefaultDataError;
-  console.log('INSIDE INSERT ANIME PAGE');
-  console.log(actionData);
 
   return (
     <div className="m-2 p-2">
-      <AnimeForm categories={ categories } serverError={actionData} />
+      <AnimeForm categories={ categories } serverError={actionData} defaultValues={anime} />
     </div>
   );
 }
 
-export default InsertAnimePage;
+export default EditAnimePage;

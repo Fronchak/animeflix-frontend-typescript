@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Form, useSubmit } from 'react-router-dom';
+import { Anime } from '../../types/domain/Anime';
 import { AnimeFormInputs, AnimeFormInputsKeys } from '../../types/domain/AnimeFormInputs';
 import { CategoryName } from '../../types/domain/CategoryName';
 import { DefaultDataError } from '../../types/vendor/DefaultDataError';
@@ -8,13 +9,28 @@ import { DefaultDataError } from '../../types/vendor/DefaultDataError';
 type Props = {
   categories: CategoryName[];
   serverError?: DefaultDataError;
+  defaultValues?: Anime;
 }
 
-const AnimeForm = ({ categories, serverError }: Props) => {
+const AnimeForm = ({ categories, serverError, defaultValues }: Props) => {
 
-  const { register, handleSubmit, formState: { errors } } = useForm<AnimeFormInputs>();
+  const { register, handleSubmit, setValue, formState: { errors } } = useForm<AnimeFormInputs>();
+
   const [wasSubmited, setWasSubmited] = useState<boolean>(false);
   const submit = useSubmit();
+
+  useEffect(() => {
+    if(defaultValues) {
+
+      setValue('name', defaultValues.name);
+
+      setValue('imgUrl', defaultValues.imgUrl);
+      setValue('lauchYear', defaultValues.lauchYear);
+      setValue('avaliation', defaultValues.avaliation);
+      setValue('synopsis', defaultValues.synopsis);
+
+    }
+  }, []);
 
   const getServerError = (fieldName: AnimeFormInputsKeys) => {
     return serverError?.errors?.find((fieldError) => fieldError.fieldName === fieldName)?.message;
@@ -97,6 +113,7 @@ const AnimeForm = ({ categories, serverError }: Props) => {
             className={`form-select ${getInputClassName('categories')}`}
             id="categories"
             name="categories"
+            defaultValue={defaultValues ? defaultValues.categories.map((category) => String(category.id)) : []}
             multiple
           >
             { categories.map((category) => <option key={category.id} value={category.id}>{ category.name }</option>) }
