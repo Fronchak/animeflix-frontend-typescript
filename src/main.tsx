@@ -16,6 +16,8 @@ import AdminIndex from './pages/AdminIndex';
 import InsertAnimePage, { loader as insertAnimePageLoader, action as insertAnimeAction } from './pages/InsertAnimePage';
 import EditAnimePage, { loader as editAnimePageLoader, action as editAnimePageAction } from './pages/EditAnimePage';
 import DeleteAnimePage, { loader as deleteAnimePageLoader, action as deleteAnimePageAction } from './pages/DeleteAnimePage';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 type BaseParams = {
   id: string;
@@ -107,5 +109,6 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <RouterProvider router={router}/>
+    <ToastContainer />
   </React.StrictMode>,
 )

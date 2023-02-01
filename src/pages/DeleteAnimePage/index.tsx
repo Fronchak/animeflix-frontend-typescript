@@ -1,5 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
 import { LoaderFunctionArgs, ActionFunctionArgs, useLoaderData, Form, redirect } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import AnimeDetails from '../../components/AnimeDetails';
 import { Anime } from '../../types/domain/Anime';
 import { requestBackend } from '../../util/request';
@@ -10,6 +11,7 @@ export const action = async ({ params }: ActionFunctionArgs) => {
     url: `/animes/${params.id}`
   }
   await requestBackend(config);
+  toast.success('Anime deleted with success');
   return redirect('/admin/animes');
 }
 
