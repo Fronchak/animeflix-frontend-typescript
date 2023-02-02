@@ -57,17 +57,6 @@ const AnimeForm = ({ categories, serverError, defaultValues }: Props) => {
     submit(form);
   }
 
-  const onButtonClick = () => {
-    serverErrorObj = {
-      name: '',
-      synopsis: '',
-      lauchYear: '',
-      avaliation: '',
-      imgUrl: '',
-      categories: ''
-    }
-  }
-
   return (
     <Form method='post' className="row m-0" onSubmit={handleSubmit(onSubmit)} id="form">
       <div className="col-12 mb-4">

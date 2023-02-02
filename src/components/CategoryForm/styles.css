@@ -1,0 +1,23 @@
+#category-form-container {
+  border-radius: 1em;
+}
+
+
+#category-form-container .btn {
+  border-radius: 0;
+  transition: 0.8s;
+  font-size: 1.2em;
+  font-weight: bold;
+  width: 100%;
+}
+
+#category-form-container .btn:hover {
+  background-color: #fff;
+  color: #198754;
+}
+
+@media (min-width: 768px) {
+  #category-form-container .btn {
+    width: 50%;
+  }
+}
