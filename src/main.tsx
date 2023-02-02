@@ -21,6 +21,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AdminCategoryDetails, { loader as adminCategoryDetailsLoader } from './pages/AdminCategoryDetails';
 import CreateCategoryPage, { action as createCategoryPageAction } from './pages/CreateCategoryPage';
+import UpdateCategoryPage, { loader as editCategoryPageLoader, action as editCategoryPageAction } from './pages/EditCategoryPage';
 
 type BaseParams = {
   id: string;
@@ -113,6 +114,12 @@ const router = createBrowserRouter([
                     path: 'categories/create',
                     element: <CreateCategoryPage />,
                     action: createCategoryPageAction
+                  },
+                  {
+                    path: 'categories/edit/:id',
+                    element: <UpdateCategoryPage />,
+                    action: editCategoryPageAction,
+                    loader: editCategoryPageLoader
                   }
                 ]
               }

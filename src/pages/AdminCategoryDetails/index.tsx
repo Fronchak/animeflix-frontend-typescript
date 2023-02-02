@@ -28,8 +28,8 @@ const AdminCategoryDetails = () => {
       <p>{ category.description }</p>
       <hr></hr>
       <div id="category-buttons-container">
-        <Link to={`edit/${ category.id }`} className="btn btn-primary">Edit</Link>
-        <Link to={`delete/${ category.id }`} className="btn btn-danger">Delete</Link>
+        <Link to={`/admin/categories/edit/${ category.id }`} className="btn btn-primary">Edit</Link>
+        <Link to={`/admin/categories/delete/${ category.id }`} className="btn btn-danger">Delete</Link>
       </div>
     </div>
   );

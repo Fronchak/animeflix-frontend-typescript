@@ -5,13 +5,12 @@ import CategoryForm from "../../components/CategoryForm";
 import { Category } from '../../types/domain/Category';
 import { DefaultDataError } from '../../types/vendor/DefaultDataError';
 import { RequestError } from '../../types/vendor/RequestError';
-import { requestAllCategoryNames, requestBackend } from '../../util/request';
+import { requestBackend } from '../../util/request';
 
 export const action = async({ request }: ActionFunctionArgs) => {
   try {
     const formData = await request.formData();
     const data = Object.fromEntries(formData);
-    console.log(data);
     const config: AxiosRequestConfig = {
       method: 'post',
       url: '/categories',
@@ -22,7 +21,6 @@ export const action = async({ request }: ActionFunctionArgs) => {
     const category = response.data as Category;
     toast.success('Category created with success');
     return redirect(`/admin/categories/${category.id}`);
-
   }
   catch(e) {
     toast.error('Error when try to create category!');
