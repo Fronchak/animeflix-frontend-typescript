@@ -4,13 +4,15 @@ import { Form, useSubmit } from 'react-router-dom';
 import CategoryFormImage from '../../assets/imgs/category-form-image.svg';
 import { Category } from '../../types/domain/Category';
 import { CategoryFormInputs, CategoryFormInputsKeys } from '../../types/domain/CategoryFormInputs';
+import { DefaultDataError } from '../../types/vendor/DefaultDataError';
 import './styles.css';
 
 type Props = {
   defaultValues?: Category;
+  serverError?: DefaultDataError;
 }
 
-const CategoryForm = ({ defaultValues }: Props) => {
+const CategoryForm = ({ defaultValues, serverError }: Props) => {
 
   const { register, handleSubmit, setValue, formState: { errors } } = useForm<CategoryFormInputs>();
 
@@ -24,14 +26,22 @@ const CategoryForm = ({ defaultValues }: Props) => {
     }
   }, []);
 
+  const getServerError = (fieldName: CategoryFormInputsKeys) => {
+    return serverError?.errors?.find((fieldError) => fieldError.fieldName === fieldName)?.message;
+  }
+
+  const serverErrorObj = {
+    name: getServerError('name'),
+    description: getServerError('description'),
+  }
+
   const onSubmit = (inputs: CategoryFormInputs) => {
     const form = document.getElementById('category-form') as HTMLFormElement;
     submit(form);
   }
 
   const getInputClassName = (fieldName: CategoryFormInputsKeys) => {
-    //return wasSubmited ? ((errors[fieldName]?.message || serverErrorObj[fieldName]) ? 'is-invalid' : 'is-valid') : '';
-    return wasSubmited ? ((errors[fieldName]?.message) ? 'is-invalid' : 'is-valid') : '';
+    return wasSubmited ? ((errors[fieldName]?.message || serverErrorObj[fieldName]) ? 'is-invalid' : 'is-valid') : '';
   }
 
   return (
@@ -42,6 +52,14 @@ const CategoryForm = ({ defaultValues }: Props) => {
         </div>
         <Form method='post' className="col-12 col-md-6" id="category-form" onSubmit={handleSubmit(onSubmit)}>
           <h3 className="mb-3">Category Form</h3>
+          <div>
+            <div
+              className={`alert alert-danger ${serverError ? 'd-block' : 'd-none'}`}
+              role="alert"
+            >
+              <i className="bi bi-exclamation-triangle-fill me-2"></i>{ serverError?.message }
+            </div>
+          </div>
           <div className="mb-3">
             <input
               { ...register('name', {
@@ -57,7 +75,9 @@ const CategoryForm = ({ defaultValues }: Props) => {
               placeholder="Name"
               className={`form-control ${getInputClassName('name')}`}
             ></input>
-
+          <div className="invalid-feedback d-block">
+            { serverErrorObj['name'] }
+          </div>
             <div className="invalid-feedback d-block">
               { errors.name?.message }
             </div>
@@ -77,6 +97,9 @@ const CategoryForm = ({ defaultValues }: Props) => {
               className={`form-control ${getInputClassName('description')}`}
               rows={10}
             ></textarea>
+            <div className="invalid-feedback d-block">
+              { serverErrorObj['description'] }
+            </div>
             <div className="invalid-feedback d-block">
               { errors.description?.message }
             </div>

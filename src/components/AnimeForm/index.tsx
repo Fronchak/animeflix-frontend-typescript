@@ -40,7 +40,7 @@ const AnimeForm = ({ categories, serverError, defaultValues }: Props) => {
     return wasSubmited ? ((errors[fieldName]?.message || serverErrorObj[fieldName]) ? 'is-invalid' : 'is-valid') : '';
   }
 
-  let serverErrorObj = {
+  const serverErrorObj = {
     name: getServerError('name'),
     synopsis: getServerError('synopsis'),
     lauchYear: getServerError('lauchYear'),
@@ -49,7 +49,6 @@ const AnimeForm = ({ categories, serverError, defaultValues }: Props) => {
     categories: getServerError('categories')
   }
 
-  const name = 'name';
 
   const onSubmit = (inputs: AnimeFormInputs) => {
     console.log(inputs);
@@ -91,7 +90,7 @@ const AnimeForm = ({ categories, serverError, defaultValues }: Props) => {
             { errors.name?.message }
           </div>
           <div className="invalid-feedback d-block">
-            { serverErrorObj[name] }
+            { serverErrorObj['name'] }
           </div>
         </div>
         <div className="mb-3">
