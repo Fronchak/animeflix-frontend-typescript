@@ -1,0 +1,16 @@
+#admin-categories-list-container .alert {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+#admin-categories-list-container .btn {
+  border-radius: 0;
+  font-size: 1.4em;
+  transition: 0.8s;
+  font-weight: bold;
+}
+
+#admin-categories-list-container .btn-primary:hover {
+  background-color: #fff;
+  color: #0d6efd;
+}

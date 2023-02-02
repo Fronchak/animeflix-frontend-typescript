@@ -1,0 +1,16 @@
+#category-filter-form .btn {
+  border-radius: 0;
+  font-size: 1.4em;
+  transition: 0.8s;
+  font-weight: bold;
+}
+
+#category-filter-form input {
+  font-size: 1.4em;
+
+}
+
+#category-filter-form .btn:hover {
+  background-color: #fff;
+  color: #6c757d;
+}

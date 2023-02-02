@@ -1,0 +1,25 @@
+#admin-category-details-container {
+  border-radius: 1em;
+}
+
+#category-buttons-container {
+  display: flex;
+  justify-content: end;
+  gap: 1em;
+}
+
+#category-buttons-container .btn {
+  flex: 1;
+  border-radius: 0;
+  transition: 0.8s;
+}
+
+#category-buttons-container .btn-primary:hover {
+  background-color: #fff;
+  color: #0d6efd;
+}
+
+#category-buttons-container .btn-danger:hover {
+  background-color: #fff;
+  color: #dc3545;;
+}

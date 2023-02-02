@@ -16,8 +16,10 @@ import AdminIndex from './pages/AdminIndex';
 import InsertAnimePage, { loader as insertAnimePageLoader, action as insertAnimeAction } from './pages/InsertAnimePage';
 import EditAnimePage, { loader as editAnimePageLoader, action as editAnimePageAction } from './pages/EditAnimePage';
 import DeleteAnimePage, { loader as deleteAnimePageLoader, action as deleteAnimePageAction } from './pages/DeleteAnimePage';
+import AdminCategoriesList, { loader as adminCategoriesListLoader } from './pages/AdminCategoriesList';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import AdminCategoryDetails, { loader as adminCategoryDetailsLoader } from './pages/AdminCategoryDetails';
 
 type BaseParams = {
   id: string;
@@ -95,6 +97,16 @@ const router = createBrowserRouter([
                     element: <DeleteAnimePage />,
                     loader: deleteAnimePageLoader,
                     action: deleteAnimePageAction
+                  },
+                  {
+                    path: 'categories',
+                    element: <AdminCategoriesList />,
+                    loader: adminCategoriesListLoader
+                  },
+                  {
+                    path: 'categories/:id',
+                    element: <AdminCategoryDetails />,
+                    loader: adminCategoryDetailsLoader
                   }
                 ]
               }
