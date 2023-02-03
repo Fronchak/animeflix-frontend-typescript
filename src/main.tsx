@@ -22,6 +22,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import AdminCategoryDetails, { loader as adminCategoryDetailsLoader } from './pages/AdminCategoryDetails';
 import CreateCategoryPage, { action as createCategoryPageAction } from './pages/CreateCategoryPage';
 import UpdateCategoryPage, { loader as editCategoryPageLoader, action as editCategoryPageAction } from './pages/EditCategoryPage';
+import UserRegisterForm, { action as userRegisterFormAction } from './components/UserRegisterForm';
 
 type BaseParams = {
   id: string;
@@ -63,6 +64,11 @@ const router = createBrowserRouter([
                 index: true,
                 element: <LoginForm />,
                 action: loginAction
+              },
+              {
+                path: 'register',
+                element: <UserRegisterForm />,
+                action: userRegisterFormAction
               }
             ]
           },

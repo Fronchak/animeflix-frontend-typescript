@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { ActionFunctionArgs, Form, redirect, useNavigate } from 'react-router-dom';
+import { ActionFunctionArgs, Form, Link, redirect, useNavigate } from 'react-router-dom';
 import { getAuthData, requestBackendLogin, saveAuthData } from '../../util/request';
+import './styles.css';
 
 export const action = async({ request }: ActionFunctionArgs) => {
   console.log('Passou pelo action do login');
@@ -16,8 +17,6 @@ type FormData = {
 const LoginForm = () => {
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
   const [ wasSubmited, setWasSubmited ] = useState(false);
-  const navigate = useNavigate();
-
 
   const onSubmit = (formData: FormData) => {
     console.log(formData);
@@ -33,10 +32,10 @@ const LoginForm = () => {
   }
 
   return (
-    <div className="container py-3">
+    <div className="container py-3" id="login-form-container">
       <div className="row">
         <div className="col-12 mb-5">
-          Faça o seu login
+          <h1>Faça o seu login</h1>
         </div>
         <Form method='post' onSubmit={handleSubmit(onSubmit)}>
           <div className="col-12 mb-3">
@@ -83,6 +82,7 @@ const LoginForm = () => {
               onClick={() => setWasSubmited(true)}
               type="submit" className="btn btn-primary">Entrar</button>
           </div>
+          <p>Doesn't have an account? <Link to="register">Click here</Link></p>
         </Form>
       </div>
     </div>

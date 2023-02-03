@@ -68,7 +68,7 @@ const CategoryForm = ({ defaultValues, serverError }: Props) => {
                   value: /[\S]+/,
                   message: `Name's cannot be empty`
                 }
-              }) }
+              })}
               type="text"
               id="name"
               name="name"
