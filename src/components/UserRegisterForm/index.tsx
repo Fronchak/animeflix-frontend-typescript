@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { UserRegisterInputs, UserRegisterInputsKeys } from "../../types/domain/UserRegisterInputs";
 import { DefaultDataError } from "../../types/vendor/DefaultDataError";
 import { RequestError } from "../../types/vendor/RequestError";
-import { requestBackend } from "../../util/request";
+import { getTokenData, isAuthenticated, requestBackend } from "../../util/request";
 import './styles.css';
 
 export const action = async({ request }: ActionFunctionArgs) => {
@@ -74,6 +74,8 @@ const UserRegisterForm = () => {
   return (
     <div className="col-12" id="user-register-form-container">
       <h1 className="mb-4">Create Account</h1>
+      <h1 className="mb-4">{ getTokenData()?.user_name }</h1>
+      <h1>{ isAuthenticated() ? 'Authenticated' : 'Not Authenticated' }</h1>
       <div
         className={`alert alert-danger ${serverError ? 'd-block' : 'd-none'}`}
         role="alert"

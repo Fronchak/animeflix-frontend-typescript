@@ -1,6 +1,20 @@
+import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { TokenData } from '../../util/request';
+import './styles.css';
 
-const Navbar = () => {
+type AuthData = {
+  authenticated: boolean;
+  tokenData?: TokenData;
+}
+
+type Props = {
+  authenticated: boolean;
+  tokenData?: TokenData;
+}
+
+const Navbar = ({ authenticated, tokenData }: Props) => {
+
   return (
     <nav className="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
       <div className="container">
@@ -9,7 +23,7 @@ const Navbar = () => {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarItems">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+          <ul className="navbar-nav mb-2 mb-lg-0">
             <li className="nav-item">
               <NavLink className="nav-link" aria-current="page" to="/">Home</NavLink>
             </li>
@@ -19,6 +33,8 @@ const Navbar = () => {
             <li className="nav-item">
               <NavLink className="nav-link" to="admin">Admin</NavLink>
             </li>
+          </ul>
+          <ul className="navbar-nav mb-2 mb-lg-0">
             <li className="nav-item">
               <NavLink className="nav-link" to="auth">Login</NavLink>
             </li>

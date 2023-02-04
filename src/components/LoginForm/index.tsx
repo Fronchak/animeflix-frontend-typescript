@@ -1,12 +1,25 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { ActionFunctionArgs, Form, Link, redirect, useNavigate } from 'react-router-dom';
+import { ActionFunctionArgs, Form, Link, redirect, useNavigate, useSubmit } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { getAuthData, requestBackendLogin, saveAuthData } from '../../util/request';
 import './styles.css';
 
 export const action = async({ request }: ActionFunctionArgs) => {
-  console.log('Passou pelo action do login');
-  return redirect('/animes');
+  try {
+    const formData = await request.formData();
+    const data = Object.fromEntries(formData);
+    const response = await requestBackendLogin(data as FormData);
+    saveAuthData(response.data);
+    toast.success('Logado com sucesso');
+    return redirect('/animes');
+  }
+  catch(e) {
+    console.log("Erro ao fazer o login");
+    toast.error('Erro ao fazer o login');
+    return null;
+  }
+
 }
 
 type FormData = {
@@ -17,8 +30,10 @@ type FormData = {
 const LoginForm = () => {
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
   const [ wasSubmited, setWasSubmited ] = useState(false);
+  const submit = useSubmit();
 
   const onSubmit = (formData: FormData) => {
+    /*
     console.log(formData);
     requestBackendLogin(formData)
       .then((response) => {
@@ -29,6 +44,9 @@ const LoginForm = () => {
       .catch((e) => {
         console.log('ERROR!', e);
       })
+      */
+     const form = document.getElementById("login-form") as HTMLFormElement;
+     submit(form);
   }
 
   return (
@@ -37,7 +55,7 @@ const LoginForm = () => {
         <div className="col-12 mb-5">
           <h1>Faça o seu login</h1>
         </div>
-        <Form method='post' onSubmit={handleSubmit(onSubmit)}>
+        <Form method='post' onSubmit={handleSubmit(onSubmit)} id="login-form">
           <div className="col-12 mb-3">
             <label className="form-label" htmlFor="username">Email</label>
             <input

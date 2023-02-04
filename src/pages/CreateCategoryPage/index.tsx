@@ -14,6 +14,7 @@ export const action = async({ request }: ActionFunctionArgs) => {
     const config: AxiosRequestConfig = {
       method: 'post',
       url: '/categories',
+      withCredentials: true,
       data
     }
 

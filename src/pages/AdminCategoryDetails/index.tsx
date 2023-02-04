@@ -7,7 +7,8 @@ import './styles.css';
 export const loader = async({ params }: LoaderFunctionArgs) => {
   const config: AxiosRequestConfig = {
     url: `/categories/${ params.id }`,
-    method: 'get'
+    method: 'get',
+    withCredentials: true
   }
   const response = await requestBackend(config);
   const category = response.data;

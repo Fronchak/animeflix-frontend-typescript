@@ -1,13 +1,22 @@
-import axios from 'axios';
-import { useNavigate, useLoaderData, useParams, LoaderFunctionArgs } from 'react-router-dom';
+import axios, { AxiosRequestConfig } from 'axios';
+import { useNavigate, useLoaderData, useParams, LoaderFunctionArgs, redirect } from 'react-router-dom';
 import AnimeDetails from '../../components/AnimeDetails';
 import { Anime } from '../../types/domain/Anime';
-import { BASE_URL } from '../../util/request';
+import { requestBackend } from '../../util/request';
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
-  const response = await axios.get(`${BASE_URL}/animes/${ params.id }`);
-  const anime = response.data;
-  return { anime }
+  const config: AxiosRequestConfig = {
+    method: 'get',
+    url: `/animes/${ params.id }`,
+    withCredentials: true
+  }
+
+    const response = await requestBackend(config);
+    const anime = response.data;
+    return { anime }
+
+
+
 }
 
 type LoaderData = {

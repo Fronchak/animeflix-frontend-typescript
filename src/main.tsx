@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider, useParams } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import ErrorComponent from './components/ErrorComponent';
 import Animes, { loader as animesLoader } from './pages/Animes';
 import ErrorPage from './pages/ErrorPage';
 import Home from './pages/Home';
-import Root from './pages/Root';
+import Root, { loader as rootLoader } from './pages/Root';
 import AnimeDetailsPage, { loader as animeDetailsLoader } from './pages/AnimeDetailsPage';
 import Auth from './pages/Auth';
 import LoginForm, { action as loginAction } from './components/LoginForm';
@@ -23,6 +23,8 @@ import AdminCategoryDetails, { loader as adminCategoryDetailsLoader } from './pa
 import CreateCategoryPage, { action as createCategoryPageAction } from './pages/CreateCategoryPage';
 import UpdateCategoryPage, { loader as editCategoryPageLoader, action as editCategoryPageAction } from './pages/EditCategoryPage';
 import UserRegisterForm, { action as userRegisterFormAction } from './components/UserRegisterForm';
+import { isAuthenticated } from './util/request';
+import PrivateRoute from './components/PrivateRoute';
 
 type BaseParams = {
   id: string;
@@ -33,6 +35,7 @@ const router = createBrowserRouter([
     path: '/',
     element: <Root />,
     errorElement: <ErrorPage />,
+    loader: rootLoader,
     children: [
       {
         errorElement: <ErrorComponent />,
@@ -74,10 +77,11 @@ const router = createBrowserRouter([
           },
           {
             path: 'admin',
-            element: <AdminRoot />,
+            element: <PrivateRoute />,
             children: [
               {
                 errorElement: <ErrorComponent />,
+                element: <AdminRoot />,
                 children: [
                   {
                     index: true,
