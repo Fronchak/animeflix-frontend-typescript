@@ -1,12 +1,7 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { TokenData } from '../../util/request';
+import { getTokenData, isAuthenticated, removeAuthData, TokenData } from '../../util/request';
 import './styles.css';
-
-type AuthData = {
-  authenticated: boolean;
-  tokenData?: TokenData;
-}
 
 type Props = {
   authenticated: boolean;
@@ -36,7 +31,17 @@ const Navbar = ({ authenticated, tokenData }: Props) => {
           </ul>
           <ul className="navbar-nav mb-2 mb-lg-0">
             <li className="nav-item">
-              <NavLink className="nav-link" to="auth">Login</NavLink>
+              <span className="nav-link text-white">{ tokenData?.user_name }</span>
+            </li>
+            <li className="nav-item">
+              { authenticated ? (
+                <>
+                  <NavLink className="nav-link" to="logout">Logout</NavLink>
+                </>
+              ) : (
+                <NavLink className="nav-link" to="auth">Login</NavLink>
+              ) }
+
             </li>
           </ul>
         </div>

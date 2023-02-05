@@ -66,6 +66,10 @@ export const getAuthData = () => {
   return JSON.parse(rawObj) as LoginResponse;
 }
 
+export const removeAuthData = () => {
+  localStorage.removeItem(AUTH_DATA);
+}
+
 export const requestBackend = (config: AxiosRequestConfig) => {
 
   const headers = config.withCredentials ? {

@@ -23,7 +23,7 @@ import AdminCategoryDetails, { loader as adminCategoryDetailsLoader } from './pa
 import CreateCategoryPage, { action as createCategoryPageAction } from './pages/CreateCategoryPage';
 import UpdateCategoryPage, { loader as editCategoryPageLoader, action as editCategoryPageAction } from './pages/EditCategoryPage';
 import UserRegisterForm, { action as userRegisterFormAction } from './components/UserRegisterForm';
-import { isAuthenticated } from './util/request';
+import Logout, { loader as logoutLoader } from './pages/Logout';
 import PrivateRoute from './components/PrivateRoute';
 
 type BaseParams = {
@@ -58,6 +58,11 @@ const router = createBrowserRouter([
             path: 'users/:id',
             element: <UserPage />,
             loader: userLoader
+          },
+          {
+            path: 'logout',
+            element: <Logout />,
+            loader: logoutLoader
           },
           {
             path: 'auth',
