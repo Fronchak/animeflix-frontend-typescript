@@ -24,11 +24,9 @@ import CreateCategoryPage, { action as createCategoryPageAction } from './pages/
 import UpdateCategoryPage, { loader as editCategoryPageLoader, action as editCategoryPageAction } from './pages/EditCategoryPage';
 import UserRegisterForm, { action as userRegisterFormAction } from './components/UserRegisterForm';
 import Logout, { loader as logoutLoader } from './pages/Logout';
-import PrivateRoute from './components/PrivateRoute';
-
-type BaseParams = {
-  id: string;
-}
+import WorkerOrAdminPrivateRoute from './components/WorkerOrAdminPrivateRoute';
+import AdminPrivateRoute from './components/AdminPrivateRoute';
+import AdminUserList from './pages/AdminUserList';
 
 const router = createBrowserRouter([
   {
@@ -41,8 +39,9 @@ const router = createBrowserRouter([
         errorElement: <ErrorComponent />,
         children: [
           {
-            index: true,
-            element: <Home />
+            path: '',
+            element: <Home />,
+            errorElement: <ErrorComponent />
           },
           {
             path: 'animes',
@@ -82,7 +81,7 @@ const router = createBrowserRouter([
           },
           {
             path: 'admin',
-            element: <PrivateRoute />,
+            element: <WorkerOrAdminPrivateRoute />,
             children: [
               {
                 errorElement: <ErrorComponent />,
@@ -135,6 +134,16 @@ const router = createBrowserRouter([
                     element: <UpdateCategoryPage />,
                     action: editCategoryPageAction,
                     loader: editCategoryPageLoader
+                  },
+                  {
+                    path: 'users',
+                    element: <AdminPrivateRoute />,
+                    children: [
+                      {
+                        index: true,
+                        element: <AdminUserList />
+                      }
+                    ]
                   }
                 ]
               }

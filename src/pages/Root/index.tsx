@@ -1,6 +1,6 @@
 import { Outlet, useLoaderData } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
-import { getTokenData, isAuthenticated, TokenData } from '../../util/request';
+import { getTokenData, isAuthenticated, TokenData } from '../../util/auth';
 
 export const loader = (): Loader => {
   if(isAuthenticated()) {

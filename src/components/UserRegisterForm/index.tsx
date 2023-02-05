@@ -6,7 +6,8 @@ import { toast } from "react-toastify";
 import { UserRegisterInputs, UserRegisterInputsKeys } from "../../types/domain/UserRegisterInputs";
 import { DefaultDataError } from "../../types/vendor/DefaultDataError";
 import { RequestError } from "../../types/vendor/RequestError";
-import { getTokenData, isAuthenticated, requestBackend } from "../../util/request";
+import { getTokenData, isAuthenticated } from "../../util/auth";
+import { requestBackend } from "../../util/request";
 import './styles.css';
 
 export const action = async({ request }: ActionFunctionArgs) => {

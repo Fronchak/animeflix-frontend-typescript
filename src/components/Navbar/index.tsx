@@ -1,6 +1,5 @@
-import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { getTokenData, isAuthenticated, removeAuthData, TokenData } from '../../util/request';
+import { hasAnyRole, TokenData } from '../../util/auth';
 import './styles.css';
 
 type Props = {
@@ -25,9 +24,11 @@ const Navbar = ({ authenticated, tokenData }: Props) => {
             <li className="nav-item">
               <NavLink className="nav-link" to="animes">Animes</NavLink>
             </li>
-            <li className="nav-item">
-              <NavLink className="nav-link" to="admin">Admin</NavLink>
-            </li>
+            { hasAnyRole(['ROLE_ADMIN', 'ROLE_WORKER']) && (
+              <li className="nav-item">
+                <NavLink className="nav-link" to="admin">Admin</NavLink>
+              </li>
+            ) }
           </ul>
           <ul className="navbar-nav mb-2 mb-lg-0">
             { authenticated && (

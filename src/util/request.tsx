@@ -1,21 +1,12 @@
-import axios, { AxiosHeaders, AxiosRequestConfig } from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import qs from 'qs';
-import jwtDecode from 'jwt-decode';
 import { CategoryName } from '../types/domain/CategoryName';
+import { getAuthData } from "./storage";
 
 export const BASE_URL = 'http://localhost:8080';
 
 const CLIENT_ID = "myclientid";
 const CLIENT_SECRET = "myclientsecret";
-const AUTH_DATA = 'authData';
-
-type LoginResponse = {
-  access_token: string;
-  token_type: string;
-  expires_in: number;
-  scope: string;
-  jti: string;
-};
 
 const basicHeader = () => {
   return `Basic ${ window.btoa(`${CLIENT_ID}:${CLIENT_SECRET}`) }`;
@@ -24,14 +15,6 @@ const basicHeader = () => {
 type LoginData = {
   username: string;
   password: string;
-}
-
-type Role = 'ROLE_WORKER' | 'ROLE_ADMIN' | 'ROLE_USER';
-
-export type TokenData = {
-  exp: number;
-  user_name: string;
-  authorities: Role[];
 }
 
 export const requestBackendLogin = (loginData: LoginData) => {
@@ -55,19 +38,6 @@ export const requestBackendLogin = (loginData: LoginData) => {
     headers
   });
 
-}
-
-export const saveAuthData = (loginResponse: LoginResponse) => {
-  localStorage.setItem(AUTH_DATA, JSON.stringify(loginResponse));
-}
-
-export const getAuthData = () => {
-  const rawObj = localStorage.getItem(AUTH_DATA) ?? '{}';
-  return JSON.parse(rawObj) as LoginResponse;
-}
-
-export const removeAuthData = () => {
-  localStorage.removeItem(AUTH_DATA);
 }
 
 export const requestBackend = (config: AxiosRequestConfig) => {
@@ -105,54 +75,4 @@ export const getParamsToAnimePageFromRequest = (request: Request) => {
     page,
     size: 3
   }
-}
-
-// Add a request interceptor
-axios.interceptors.request.use(function (config) {
-  // Do something before request is sent
-  console.log("INTERCEPTOR ANTES DA REQUEST");
-  return config;
-}, function (error) {
-  // Do something with request error
-  console.log("INTERCEPTOR DE ERRO NA REQUEST");
-  return Promise.reject(error);
-});
-
-// Add a response interceptor
-axios.interceptors.response.use(function (response) {
-  // Any status code that lie within the range of 2xx cause this function to trigger
-  // Do something with response data
-  console.log("INTERCEPTOR DE SUCESSO NA RESPONSE");
-  return response;
-}, function (error) {
-  // Any status codes that falls outside the range of 2xx cause this function to trigger
-  // Do something with response error
-  console.log("INTERCEPTOR DE ERRO NA RESPONSE");
-  if(error.response.status === 401 || error.response.status === 403) {
-    console.log('Erro de validação');
-    //redirect('/auth');
-  }
-  return Promise.reject(error);
-});
-
-export const getTokenData = (): TokenData | undefined => {
-
-  const loginResponse = getAuthData();
-  try {
-    return jwtDecode(loginResponse.access_token) as TokenData;
-  }
-  catch(error) {
-    return undefined;
-  }
-}
-
-export const isAuthenticated = (): boolean => {
-  const tokenData = getTokenData();
-  return tokenData !== undefined && (tokenData.exp > (Date.now()/1000));
-}
-
-export const isWorkerOrAdmin = (): boolean => {
-  const tokenData = getTokenData();
-  return tokenData !== undefined && (tokenData.exp > (Date.now()/1000))
-      && ( tokenData.authorities.includes('ROLE_WORKER') || tokenData.authorities.includes('ROLE_ADMIN'));
 }

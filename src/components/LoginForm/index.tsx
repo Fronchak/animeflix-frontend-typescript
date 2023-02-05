@@ -1,21 +1,21 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { ActionFunctionArgs, Form, Link, redirect, useNavigate, useSubmit } from 'react-router-dom';
+import { ActionFunctionArgs, Form, Link, redirect, useLocation, useSubmit } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { getAuthData, requestBackendLogin, saveAuthData } from '../../util/request';
+import { requestBackendLogin } from '../../util/request';
+import { saveAuthData } from '../../util/storage';
 import './styles.css';
 
 export const action = async({ request }: ActionFunctionArgs) => {
   try {
     const formData = await request.formData();
-    const data = Object.fromEntries(formData);
+    const data = Object.fromEntries(formData) as FormData;
     const response = await requestBackendLogin(data as FormData);
     saveAuthData(response.data);
     toast.success('Logado com sucesso');
-    return redirect('/animes');
+    return redirect(data.from);
   }
   catch(e) {
-    console.log("Erro ao fazer o login");
     toast.error('Erro ao fazer o login');
     return null;
   }
@@ -24,29 +24,24 @@ export const action = async({ request }: ActionFunctionArgs) => {
 
 type FormData = {
   username: string,
-  password: string
+  password: string,
+  from: string
 }
 
 const LoginForm = () => {
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
   const [ wasSubmited, setWasSubmited ] = useState(false);
   const submit = useSubmit();
+  const location = useLocation();
+  const { state } = location;
+  const from = state ? state.from : '/animes';
+
 
   const onSubmit = (formData: FormData) => {
-    /*
-    console.log(formData);
-    requestBackendLogin(formData)
-      .then((response) => {
-        console.log('SUCESSO!', response);
-        saveAuthData(response.data);
-        console.log(getAuthData());
-      })
-      .catch((e) => {
-        console.log('ERROR!', e);
-      })
-      */
      const form = document.getElementById("login-form") as HTMLFormElement;
-     submit(form);
+     submit(form, {
+      replace: true
+     });
   }
 
   return (
@@ -94,6 +89,16 @@ const LoginForm = () => {
             <div className="invalid-feedback">
               { errors.password?.message }
             </div>
+          </div>
+          <div className="d-none">
+            <input
+              { ...register('from') }
+              type="text"
+              id="from"
+              name="from"
+              className="form-control"
+              defaultValue={from}
+            />
           </div>
           <div className="col-12 mb-3">
             <button

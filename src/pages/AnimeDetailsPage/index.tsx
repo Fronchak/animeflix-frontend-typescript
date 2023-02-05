@@ -15,8 +15,6 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
     const anime = response.data;
     return { anime }
 
-
-
 }
 
 type LoaderData = {

@@ -1,5 +1,5 @@
-import { Navigate, redirect } from 'react-router-dom';
-import { removeAuthData } from '../../util/request';
+import { Navigate } from 'react-router-dom';
+import { removeAuthData } from '../../util/storage';
 
 export const loader = () => {
   removeAuthData();
