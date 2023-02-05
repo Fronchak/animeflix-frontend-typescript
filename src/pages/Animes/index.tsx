@@ -1,4 +1,4 @@
-import { Link, useLoaderData, redirect, LoaderFunctionArgs, useNavigate } from 'react-router-dom';
+import { Link, useLoaderData, redirect, LoaderFunctionArgs, useNavigate, useNavigation } from 'react-router-dom';
 import axios, { AxiosRequestConfig } from 'axios';
 import AnimeCard from "../../components/AnimeCard";
 import { getParamsToAnimePageFromRequest, requestAllCategoryNames, requestBackend } from '../../util/request';
@@ -8,6 +8,7 @@ import { CategoryName } from '../../types/domain/CategoryName';
 import { AnimeFilterData } from '../../types/domain/AnimeFilterData';
 import { useEffect } from 'react';
 import Pagination from '../../components/Pagination';
+import AnimeLoader from './AnimeLoader';
 
 type Anime = {
   id: number,
@@ -42,6 +43,7 @@ const Animes = () => {
   const { page, categories, params } = useLoaderData() as LoaderData;
   const animes = page.content;
   const navigate = useNavigate();
+  const navigation = useNavigation();
 
   useEffect(() => {
     const input = document.getElementById('filter') as HTMLInputElement;
@@ -67,7 +69,7 @@ const Animes = () => {
   }
 
   return (
-    <>
+    <div className="container-fluid p-0">
       <div className="container py-3">
         <div className="row">
           <div className="col-12">
@@ -76,13 +78,19 @@ const Animes = () => {
           <div className="col-12">
             <AnimeFilter categories={ categories } defaultValues={ params } handleClearFilter={() => navigate('/animes')} />
           </div>
-          { content() }
+          { navigation.state === 'loading' ? (
+            <div className="d-flex justify-content-center">
+              <AnimeLoader />
+            </div>
+          ) : content() }
         </div>
       </div>
       <div className="col-12 mt-3">
-        <Pagination activePage={page.number} pageCount={page.totalPages} onPageChange={onPageChange} />
+        { navigation.state !== 'loading' && (
+          <Pagination activePage={page.number} pageCount={page.totalPages} onPageChange={onPageChange} />
+        ) }
       </div>
-    </>
+    </div>
   );
 }
 
