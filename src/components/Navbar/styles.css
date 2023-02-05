@@ -1,4 +1,8 @@
-#navbarItems {
-  display: flex;
-  justify-content: space-between;
+
+
+@media (min-width: 992px) {
+  #navbarItems {
+    display: flex;
+    justify-content: space-between;
+  }
 }
